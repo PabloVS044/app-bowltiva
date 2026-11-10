@@ -1,27 +1,47 @@
-import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { POINTS, PRICE, SLOTS } from '../data.js'
-import { newOrder, useStore } from '../store.jsx'
+import { localOrder, useMirror, useStore } from '../store.jsx'
+import { api } from '../api.js'
 import { BowlArt, Icon, TopBar } from '../components/ui.jsx'
 
 export default function Cart() {
-  const { state, dispatch, cartItems, cartCount, cartTotal } = useStore()
+  const { state, dispatch, cartItems, cartCount, cartTotal, online } = useStore()
   const nav = useNavigate()
-  const [slot, setSlot] = useState('Ahora')
-  const [pay, setPay] = useState('card')
-  const [paying, setPaying] = useState(false)
+  const [slot, setSlot] = useMirror('cart.slot', 'Ahora')
+  const [pay, setPay] = useMirror('cart.pay', 'card')
+  const [paying, setPaying] = useMirror('cart.paying', false)
+  const [error, setError] = useMirror('cart.error', '')
   const stock = state.stock[state.pointId] || {}
 
   const short = cartItems.filter((it) => (stock[it.bowl.id] ?? 0) < it.qty)
 
-  const confirm = () => {
+  const confirm = async () => {
     setPaying(true)
-    // Pago simulado
-    setTimeout(() => {
-      const order = newOrder({ items: cartItems, pointId: state.pointId, slot, pay })
-      dispatch({ type: 'order', order })
-      nav(`/pedido/${order.id}`, { replace: true })
-    }, 1200)
+    setError('')
+    const name = state.profile?.name || 'Cliente'
+    // Pago simulado (1 s) y, si hay servidor, el pedido llega al panel de la cocina
+    await new Promise((r) => setTimeout(r, 1000))
+    let order = null
+    if (online) {
+      const { status, json } = await api.createOrder({
+        name,
+        items: cartItems.map((it) => ({ id: it.bowl.id, qty: it.qty })),
+        pointId: state.pointId,
+        slot,
+        pay,
+      })
+      if (status === 200) order = { ...json.order, remote: true }
+      else if (status === 409) {
+        dispatch({ type: 'stock', stock: { [state.pointId]: json.stock } })
+        setError('Alguien acaba de llevarse el último. Revisa las cantidades.')
+        setPaying(false)
+        return
+      }
+    }
+    if (!order) order = localOrder({ items: cartItems, pointId: state.pointId, slot, pay, name })
+    dispatch({ type: 'order', order })
+    setPaying(false)
+    nav(`/pedido/${order.id}`, { replace: true })
   }
 
   if (!cartCount) {
@@ -80,6 +100,7 @@ export default function Cart() {
             </span>
           </button>
         ))}
+        {error && <p className="warn">{error}</p>}
         {short.length > 0 && (
           <p className="warn">
             No alcanza el stock de {short.map((s) => s.bowl.name).join(', ')} en este punto. Cambia de punto o la cantidad.

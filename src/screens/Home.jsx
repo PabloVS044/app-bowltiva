@@ -1,7 +1,7 @@
-import { useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { BOWLS, PRICE, TAGS, pointById, scoreBowl, tagsOf } from '../data.js'
-import { orderStatus, useStore } from '../store.jsx'
+import { orderStatus, useMirror, useStore } from '../store.jsx'
 import { BowlArt, Icon, Tags } from '../components/ui.jsx'
 
 const FILTERS = [{ id: 'todos', label: 'Todos' }, ...Object.entries(TAGS).map(([id, t]) => ({ id, label: t.label })), { id: 'veg', label: 'Vegetariano' }]
@@ -13,10 +13,10 @@ function greeting() {
 
 export default function Home() {
   const { state, dispatch } = useStore()
-  const [filter, setFilter] = useState('todos')
+  const [filter, setFilter] = useMirror('home.filter', 'todos')
   const point = pointById(state.pointId)
   const stock = state.stock[state.pointId] || {}
-  const active = state.orders.find((o) => !o.pickedAt)
+  const active = state.orders.find((o) => ['new', 'preparing', 'ready', 'scheduled'].includes(orderStatus(o)))
 
   const ranked = useMemo(
     () =>

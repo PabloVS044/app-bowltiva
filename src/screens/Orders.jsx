@@ -5,6 +5,8 @@ import { Icon, TopBar } from '../components/ui.jsx'
 
 const LABEL = {
   scheduled: 'Programado',
+  new: 'Recibido',
+  cancelled: 'Cancelado',
   preparing: 'Preparando',
   ready: 'Listo para retirar',
   picked: 'Retirado',

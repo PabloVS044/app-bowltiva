@@ -1,7 +1,6 @@
-import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { POINTS, PRICE, bowlById, scoreBowl } from '../data.js'
-import { useStore } from '../store.jsx'
+import { useMirror, useStore } from '../store.jsx'
 import { BowlArt, Icon, NutritionLabel, Tags, TopBar } from '../components/ui.jsx'
 
 export default function BowlDetail() {
@@ -9,7 +8,7 @@ export default function BowlDetail() {
   const bowl = bowlById(id)
   const { state, dispatch } = useStore()
   const nav = useNavigate()
-  const [qty, setQty] = useState(1)
+  const [qty, setQty] = useMirror(`detail.${id}.qty`, 1)
   if (!bowl) return <p className="empty">Bowl no encontrado.</p>
 
   const { why } = scoreBowl(bowl, state.profile)

@@ -1584,3 +1584,516 @@ h3 {
 .with-tabs .cart {
   padding-bottom: 180px;
 }
+
+/* ---------- Modo espejo (iPhone del deck) ---------- */
+.phone.viewer {
+  pointer-events: none;
+  user-select: none;
+}
+
+.viewer ::-webkit-scrollbar {
+  display: none;
+}
+
+html:has(.viewer) {
+  scrollbar-width: none;
+}
+
+.taps {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  pointer-events: none;
+}
+
+.taps i {
+  position: absolute;
+  width: 46px;
+  height: 46px;
+  margin: -23px 0 0 -23px;
+  border-radius: 50%;
+  background: rgba(230, 59, 46, 0.35);
+  border: 3px solid rgba(230, 59, 46, 0.8);
+  animation: tap 0.7s ease-out forwards;
+}
+
+@keyframes tap {
+  from {
+    transform: scale(0.4);
+    opacity: 1;
+  }
+  to {
+    transform: scale(1.4);
+    opacity: 0;
+  }
+}
+
+.mirror-wait {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--blanco);
+  text-align: center;
+}
+
+.mirror-wait img {
+  width: 110px;
+}
+
+.mirror-wait b {
+  font-size: 32px;
+  font-weight: 900;
+}
+
+.mirror-wait span {
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.sending {
+  position: fixed;
+  top: max(8px, env(safe-area-inset-top));
+  right: 8px;
+  z-index: 40;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--tomate);
+  animation: pulse 1.2s ease-in-out infinite;
+}
+
+/* ---------- Panel de administración ---------- */
+body.admin-body {
+  background: #eef2e8;
+}
+
+.admin {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px 22px 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ad-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ad-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ad-brand img {
+  width: 44px;
+}
+
+.ad-brand b,
+.ad-brand span {
+  display: block;
+}
+
+.ad-brand b {
+  font-size: 22px;
+  font-weight: 900;
+}
+
+.ad-brand span {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--muted);
+}
+
+.ad-live {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(107, 154, 61, 0.15);
+  color: var(--green);
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.ad-live i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--lechuga);
+  animation: pulse 1.2s ease-in-out infinite;
+}
+
+.ad-live.off {
+  background: rgba(230, 59, 46, 0.1);
+  color: var(--red);
+}
+
+.ad-live.off i {
+  background: var(--tomate);
+}
+
+.ad-kpis {
+  display: flex;
+  gap: 10px;
+}
+
+.ad-kpis div {
+  flex: 1;
+  padding: 12px 14px;
+  border-radius: 16px;
+  background: #fff;
+  border: 1px solid var(--line);
+}
+
+.ad-kpis .wide {
+  flex: 1.6;
+}
+
+.ad-kpis span {
+  display: block;
+  font-size: 11.5px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.ad-kpis b {
+  font-size: 28px;
+  font-weight: 900;
+}
+
+.ad-kpis b.sm {
+  display: block;
+  font-size: 16px;
+  line-height: 1.2;
+  margin-top: 4px;
+}
+
+.ad-board {
+  display: grid;
+  gap: 12px;
+  align-items: start;
+}
+
+.ad-col {
+  min-height: 160px;
+  padding: 12px;
+  border-radius: 18px;
+  background: rgba(49, 68, 30, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ad-col h3 {
+  display: flex;
+  justify-content: space-between;
+  font-size: 15px;
+}
+
+.ad-col h3 span {
+  min-width: 26px;
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: #fff;
+  text-align: center;
+  font-size: 13px;
+}
+
+.ad-col.nuevo h3 span {
+  background: var(--tomate);
+  color: #fff;
+}
+
+.ad-col.listo h3 span {
+  background: var(--lechuga);
+  color: #fff;
+}
+
+.ad-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  border-radius: 14px;
+  background: #fff;
+  border: 1px solid var(--line);
+  box-shadow: 0 6px 16px rgba(49, 68, 30, 0.06);
+}
+
+.ad-card.fresh {
+  animation: fresh 1.2s ease-out;
+  border-color: var(--tomate);
+}
+
+@keyframes fresh {
+  0% {
+    transform: translateY(-14px) scale(0.96);
+    opacity: 0;
+    box-shadow: 0 0 0 0 rgba(230, 59, 46, 0.6);
+  }
+  40% {
+    transform: none;
+    opacity: 1;
+  }
+  100% {
+    box-shadow: 0 0 0 12px rgba(230, 59, 46, 0);
+  }
+}
+
+.ad-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.ad-card-top b {
+  font-size: 16px;
+  font-weight: 900;
+}
+
+.ad-card-top small {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--muted);
+}
+
+.ad-items {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ad-items span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13.5px;
+  font-weight: 800;
+}
+
+.ad-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.ad-meta span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.ad-btn {
+  min-height: 38px;
+  border-radius: 10px;
+  background: var(--oliva);
+  color: #fff;
+  font-weight: 900;
+  font-size: 14px;
+}
+
+.ad-btn.go {
+  background: var(--lechuga);
+}
+
+.ad-btn:disabled {
+  opacity: 0.5;
+}
+
+.ad-wait,
+.ad-done {
+  font-size: 12.5px;
+  font-weight: 900;
+  color: var(--amber);
+}
+
+.ad-done {
+  color: var(--green);
+}
+
+.ad-empty {
+  text-align: center;
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.ad-stock {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.ad-point {
+  padding: 12px 14px;
+  border-radius: 16px;
+  background: #fff;
+  border: 1px solid var(--line);
+}
+
+.ad-point-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ad-point-head b {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.ad-alert {
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(230, 59, 46, 0.12);
+  color: var(--red);
+  font-size: 11.5px;
+  font-weight: 900;
+}
+
+.ad-restock {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 9px;
+  border-radius: 9px;
+  background: rgba(49, 68, 30, 0.07);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.ad-stock-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.ad-s {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 6px 2px;
+  border-radius: 10px;
+  background: rgba(107, 154, 61, 0.08);
+}
+
+.ad-s b {
+  font-size: 15px;
+  font-weight: 900;
+}
+
+.ad-s.low {
+  background: rgba(224, 159, 62, 0.2);
+  color: var(--amber);
+}
+
+.ad-s.zero {
+  background: rgba(230, 59, 46, 0.12);
+  color: var(--red);
+}
+
+/* Versión compacta para incrustar en la presentación */
+.admin.compact {
+  padding: 12px;
+  gap: 10px;
+}
+
+.admin.compact .ad-kpis b {
+  font-size: 22px;
+}
+
+.admin.compact .ad-col {
+  min-height: 330px;
+  padding: 8px;
+}
+
+.admin.compact .ad-card {
+  padding: 9px;
+}
+
+.admin-pin {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  text-align: center;
+}
+
+.admin-pin img {
+  width: 90px;
+}
+
+.admin-pin input {
+  width: 200px;
+  padding: 12px;
+  border-radius: 12px;
+  border: 2px solid var(--line);
+  font-size: 26px;
+  font-weight: 900;
+  text-align: center;
+  letter-spacing: 0.3em;
+}
+
+@media (max-width: 700px) {
+  .ad-board {
+    grid-template-columns: 1fr !important;
+  }
+  .ad-stock {
+    grid-template-columns: 1fr;
+  }
+  .ad-kpis {
+    flex-wrap: wrap;
+  }
+}
+
+.admin.compact .ad-col h3 {
+  font-size: 13px;
+}
+
+.admin.compact .ad-items span {
+  font-size: 12.5px;
+}
+
+/* En el iPhone del deck no hay safe-area: se deja espacio para la Dynamic Island */
+.phone.viewer .screen,
+.phone.viewer .onb {
+  padding-top: 52px;
+}
+
+.phone.viewer .topbar {
+  top: 0;
+  padding-top: 46px;
+  margin-top: -46px;
+}
+
+/* El panel compacto llena el alto del recuadro */
+.admin.compact {
+  min-height: 100vh;
+}
+
+.admin.compact .ad-board {
+  flex: 1;
+  align-items: stretch;
+}

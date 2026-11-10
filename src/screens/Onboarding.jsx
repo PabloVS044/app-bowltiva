@@ -1,18 +1,17 @@
-import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { CONDITIONS, GOALS, POINTS } from '../data.js'
-import { useStore } from '../store.jsx'
+import { useMirror, useStore } from '../store.jsx'
 import { Icon } from '../components/ui.jsx'
 
 export default function Onboarding({ edit = false }) {
   const { state, dispatch } = useStore()
   const nav = useNavigate()
   const p = state.profile || {}
-  const [step, setStep] = useState(edit ? 1 : 0)
-  const [name, setName] = useState(p.name || '')
-  const [goals, setGoals] = useState(p.goals || [])
-  const [conditions, setConditions] = useState(p.conditions || [])
-  const [pointId, setPointId] = useState(p.pointId || state.pointId)
+  const [step, setStep] = useMirror('onb.step', edit ? 1 : 0)
+  const [name, setName] = useMirror('onb.name', p.name || '')
+  const [goals, setGoals] = useMirror('onb.goals', p.goals || [])
+  const [conditions, setConditions] = useMirror('onb.cond', p.conditions || [])
+  const [pointId, setPointId] = useMirror('onb.point', p.pointId || state.pointId)
 
   const toggle = (list, set, id) => set(list.includes(id) ? list.filter((x) => x !== id) : [...list, id])
 

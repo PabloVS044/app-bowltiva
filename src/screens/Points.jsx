@@ -9,7 +9,7 @@ function ago(t, now) {
 }
 
 export default function Points() {
-  const { state, dispatch } = useStore()
+  const { state, dispatch, online } = useStore()
   const [sel, setSel] = useState(state.pointId)
   const [now, setNow] = useState(Date.now())
   useEffect(() => {
@@ -101,9 +101,11 @@ export default function Points() {
               >
                 {state.pointId === sel ? 'Es tu punto actual' : 'Recoger aquí'}
               </button>
-              <button className="icon-btn" onClick={() => dispatch({ type: 'restock' })} aria-label="Reabastecer (demo)" title="Reabastecer (demo)">
-                <Icon name="refresh" />
-              </button>
+              {online === false && (
+                <button className="icon-btn" onClick={() => dispatch({ type: 'restock' })} aria-label="Reabastecer (demo)" title="Reabastecer (demo)">
+                  <Icon name="refresh" />
+                </button>
+              )}
             </div>
           </>
         )}
