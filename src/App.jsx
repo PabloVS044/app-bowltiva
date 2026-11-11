@@ -13,6 +13,15 @@ import Points from './screens/Points.jsx'
 import Profile from './screens/Profile.jsx'
 import Admin from './screens/Admin.jsx'
 
+// Dentro de otra página (el iPhone de la presentación): se deja espacio para la Dynamic Island
+const EMBED = (() => {
+  try {
+    return window.self !== window.top
+  } catch {
+    return true
+  }
+})()
+
 function ScrollTop() {
   const { pathname } = useLocation()
   useEffect(() => {
@@ -79,7 +88,7 @@ function Shell() {
   if (!VIEW && !state.profile && pathname !== '/bienvenida' && pathname !== '/demo') return <Navigate to="/bienvenida" replace />
   const noTabs = pathname === '/bienvenida' || pathname === '/perfil/editar' || pathname.startsWith('/bowl/')
   return (
-    <div className={`phone ${noTabs ? '' : 'with-tabs'} ${VIEW ? 'viewer' : ''}`}>
+    <div className={`phone ${noTabs ? '' : 'with-tabs'} ${VIEW ? 'viewer' : ''} ${EMBED ? 'embedded' : ''}`}>
       <ScrollTop />
       {VIEW && <Follow />}
       {SEND && <span className="sending" title={`Transmitiendo a la sala «${SEND}»`} />}

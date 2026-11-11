@@ -2078,11 +2078,14 @@ body.admin-body {
 
 /* En el iPhone del deck no hay safe-area: se deja espacio para la Dynamic Island */
 .phone.viewer .screen,
-.phone.viewer .onb {
+.phone.viewer .onb,
+.phone.embedded .screen,
+.phone.embedded .onb {
   padding-top: 52px;
 }
 
-.phone.viewer .topbar {
+.phone.viewer .topbar,
+.phone.embedded .topbar {
   top: 0;
   padding-top: 46px;
   margin-top: -46px;

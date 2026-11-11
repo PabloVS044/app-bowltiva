@@ -133,7 +133,7 @@ export function StoreProvider({ children }) {
       if (!ids.length) return
       const { status, json } = await api.getOrders(ids)
       if (status === 200) dispatch({ type: 'ordersSync', orders: json.orders })
-    }, 1500)
+    }, 1000)
     return () => clearInterval(t)
   }, [online])
 

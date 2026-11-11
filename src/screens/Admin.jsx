@@ -68,7 +68,7 @@ export default function Admin() {
         if (!stop && r.status === 200) setStock(r.json.stock)
       }
       setNow(Date.now())
-      setTimeout(pull, 1500)
+      setTimeout(pull, 1000)
     }
     pull()
     return () => {
